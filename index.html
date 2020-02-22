@@ -152,6 +152,119 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-postgreSQL学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">postgreSQL学习笔记</a>
+    </h1>
+  
+
+        
+        <a href="/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-02-22T11:23:59.431Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="postgreSQL学习笔记"><a href="#postgreSQL学习笔记" class="headerlink" title="postgreSQL学习笔记"></a>postgreSQL学习笔记</h1><p>版本从6.0开始支持SQL解释器<br>安装一路下一步。</p>
+<h3 id="1-创建数据库"><a href="#1-创建数据库" class="headerlink" title="1.创建数据库"></a>1.创建数据库</h3><p>​    //命令行操作<br>​    createdb database_name;<br>​    CREATE DATABASE database_name;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">psql -l     //展示所有数据库</span><br><span class="line">psql database_name   //进入数据库</span><br></pre></td></tr></table></figure>
+<h3 id="2-删除数据库"><a href="#2-删除数据库" class="headerlink" title="2.删除数据库"></a>2.删除数据库</h3><p>​    dropdb database;<br>​    DROP DATABASE database_name;</p>
+<h3 id="3-创建表"><a href="#3-创建表" class="headerlink" title="3.创建表"></a>3.创建表</h3><p>​    create table 表名 (title varchar(255), content text);</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//修改表名</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> posts <span class="keyword">rename</span> <span class="keyword">to</span> 表名;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//查看表信息(结构)</span><br><span class="line">\d 表名</span><br><span class="line">//执行这个sql文件</span><br><span class="line">\i a.sql</span><br><span class="line">//切换数据显示方式（横向和纵向显示） </span><br><span class="line">\x</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> posts (</span><br><span class="line">        <span class="keyword">id</span> <span class="built_in">serial</span> primary <span class="keyword">key</span>,</span><br><span class="line">        title <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">        <span class="keyword">content</span> <span class="built_in">text</span> <span class="keyword">check</span>(<span class="keyword">length</span>(<span class="keyword">content</span>) &gt; <span class="number">3</span>),</span><br><span class="line">        is_draft <span class="built_in">boolean</span> <span class="keyword">default</span> <span class="literal">FALSE</span>,</span><br><span class="line">        created_date <span class="built_in">timestamp</span> <span class="keyword">default</span> <span class="string">'now'</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> public.students</span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">integer</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="keyword">name</span> <span class="built_in">character</span>(<span class="number">128</span>),</span><br><span class="line">  subjects <span class="built_in">character</span>(<span class="number">1</span>),</span><br><span class="line">  <span class="keyword">CONSTRAINT</span> student2_pkey PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">WITH</span> (</span><br><span class="line">  OIDS=<span class="literal">FALSE</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> public.students</span><br><span class="line">  OWNER <span class="keyword">TO</span> postgres;</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="keyword">ON</span> <span class="keyword">TABLE</span> public.students</span><br><span class="line">  <span class="keyword">IS</span> <span class="string">'这是一个学生信息表'</span>;</span><br></pre></td></tr></table></figure>
+<p>案例表：</p>
+<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5Cwork%5Cpg.jpg" alt="pg"></p>
+<h3 id="4-删除表"><a href="#4-删除表" class="headerlink" title="4.删除表"></a>4.删除表</h3><p>​    DROP TABLE students;</p>
+<h3 id="5-数据类型"><a href="#5-数据类型" class="headerlink" title="5.数据类型"></a>5.数据类型</h3><p>​    数值型：<br>​     <code>integer</code> <code>real</code> <code>serial</code>(序列型，一般用于自增字段)<br>​    文字型：<br>​      <code>char</code>  <code>varchar</code>  <code>text</code><br>​    布尔型：<br>​      <code>boolean</code><br>​    日期型：<br>​      <code>date</code> <code>time</code> <code>timestamp</code><br>​    特色类型：<br>​      <code>Array</code>   <code>inet</code>(网口类型)  <code>JSON</code>  <code>XML</code></p>
+<h3 id="6-添加表约束"><a href="#6-添加表约束" class="headerlink" title="6.添加表约束"></a>6.添加表约束</h3><p>  <code>unique</code>:所在数据中值必须唯一<br>  <code>check</code>：字段设置条件，可以指定函数check(length(content) &gt; 3)必须超过3个字符<br> <code>default</code>：字段默认值</p>
+<h3 id="7-INSERT语句"><a href="#7-INSERT语句" class="headerlink" title="7.INSERT语句"></a>7.INSERT语句</h3><p>  insert into 表名(cloum1,cloum2) value(a,b); </p>
+<h3 id="8-数据抽出选项："><a href="#8-数据抽出选项：" class="headerlink" title="8.数据抽出选项："></a>8.数据抽出选项：</h3><p>  <code>order by</code>   <code>asc</code>升序  <code>desc</code>降序<br>  <code>limit</code>  限制返回数据条数<br>  <code>offset</code> 偏移量(从哪条数据开始)   </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//分页查询limit和offset结合使用。 </span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">order</span> <span class="keyword">by</span> score <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">3</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">order</span> <span class="keyword">by</span> score <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">3</span> <span class="keyword">offset</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-统计抽出数据"><a href="#9-统计抽出数据" class="headerlink" title="9.统计抽出数据"></a>9.统计抽出数据</h3><p>  <code>distinct</code>  去重<br>  <code>group by</code>/<code>having</code>(在<code>group by</code>之后进行再次筛选) 分组  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> team,<span class="keyword">max</span>(score) <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">group</span> <span class="keyword">by</span> team <span class="keyword">having</span> <span class="keyword">max</span>(score)&gt;<span class="number">25</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">max</span>(score);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="10-方便的函数"><a href="#10-方便的函数" class="headerlink" title="10.方便的函数"></a>10.方便的函数</h3><p>  <code>length</code>  <code>concat</code>(连接两个字符串)   <code>alias</code>(别名)  <code>substring</code>(截取字符串)  <code>random</code>  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> player,<span class="keyword">length</span>(player) <span class="keyword">from</span> <span class="keyword">users</span>;</span><br><span class="line"><span class="keyword">select</span> player,<span class="keyword">concat</span>(player,<span class="string">"/"</span>,team) <span class="keyword">from</span> <span class="keyword">users</span>;</span><br><span class="line"><span class="keyword">select</span> player,<span class="keyword">concat</span>(player,<span class="string">"/"</span>,team) <span class="keyword">as</span> <span class="string">"球员信息"</span> <span class="keyword">from</span> <span class="keyword">users</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">concat</span>(<span class="string">'我'</span>,<span class="keyword">substring</span>(team,<span class="number">1</span>,<span class="number">1</span>)) <span class="keyword">as</span> <span class="string">"球队首文字"</span> <span class="keyword">from</span> <span class="keyword">users</span>;</span><br><span class="line">//随机抽奖</span><br><span class="line"><span class="keyword">select</span> player <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">order</span> <span class="keyword">by</span> random() <span class="keyword">limit</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="11-更新和删除"><a href="#11-更新和删除" class="headerlink" title="11.更新和删除"></a>11.更新和删除</h3><p>  update [table] set [field=newvalue,…] where …<br>  delete from [table] where …<br>  eg:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">users</span> <span class="keyword">set</span> score = score + <span class="number">100</span> <span class="keyword">where</span> team <span class="keyword">IN</span> (<span class="string">"勇士"</span>,<span class="string">"骑士"</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="12-变更表结构"><a href="#12-变更表结构" class="headerlink" title="12.变更表结构"></a>12.变更表结构</h3><p>  //alter table [tablename] …</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//给表添加一条fullname字段</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">users</span> <span class="keyword">add</span> fullname <span class="built_in">varchar</span>(<span class="number">255</span>);</span><br></pre></td></tr></table></figure>
+
+<p>  //给哪个表的字段建索引(索引提高查询效率，但是增删效果不好)<br>  create index 索引名 on users(字段名);   </p>
+<p>  //删除索引<br>  drop index 索引名;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//修改列名</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">users</span> <span class="keyword">rename</span> player <span class="keyword">to</span> nba_player;</span><br><span class="line">//修改字段的的长度</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">users</span> <span class="keyword">alter</span> nba_player <span class="keyword">type</span> <span class="built_in">varchar</span>(<span class="number">128</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-操作多个表"><a href="#13-操作多个表" class="headerlink" title="13.操作多个表"></a>13.操作多个表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//两表的关联查询</span><br><span class="line"><span class="keyword">select</span> users.player,twitters.content <span class="keyword">from</span> <span class="keyword">users</span>,twitters <span class="keyword">where</span> users.id = twitters.user_id;</span><br><span class="line">//别名</span><br><span class="line"><span class="keyword">select</span> u.player,t.content <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">as</span> u,twitters <span class="keyword">as</span> t <span class="keyword">where</span> u.id = t.user_id;</span><br></pre></td></tr></table></figure>
+<h3 id="14-使用视图"><a href="#14-使用视图" class="headerlink" title="14.使用视图"></a>14.使用视图</h3><p>​    <code>视图</code>：视图就是一个select语句，把业务系统中常用的select语句简化成一个类似于表的对象，便于简单读取和开发。        (对于经常使用的select语句建立视图便于编码和管理)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//创建一个视图(通过 \dv 查看视图描述)</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> curry_twitters <span class="keyword">as</span> <span class="keyword">select</span> u.player,t.content <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">as</span> u,twitters <span class="keyword">as</span> t <span class="keyword">where</span> u.id = t.user_id;</span><br><span class="line"></span><br><span class="line">//要进行查询时</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> curry_twitters;</span><br><span class="line"></span><br><span class="line">//删除视图</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">view</span> curry_twitters;</span><br></pre></td></tr></table></figure>
+<h3 id="15-使用事务"><a href="#15-使用事务" class="headerlink" title="15.使用事务"></a>15.使用事务</h3><p>   <code>数据库事务</code>：是指作为单个逻辑工作单元执行的一系列操作，要么一起成功，要么一起失败。必须满足ACID(原子性、            一致性、隔离性、持久性)   </p>
+<p>   <code>PostgreSQL数据库事务使用</code><br>      begin      开启事务<br>      commit     提交<br>      rollback   回滚 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">users</span> <span class="keyword">set</span> score = <span class="number">50</span> <span class="keyword">where</span> player = <span class="string">'库里'</span>;</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">users</span> <span class="keyword">set</span> score = <span class="number">60</span> <span class="keyword">where</span> player = <span class="string">'哈登'</span>;</span><br><span class="line"><span class="keyword">commit</span>;    //如果不想跟新可以 <span class="keyword">rollback</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Hadoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
