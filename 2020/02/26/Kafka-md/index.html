@@ -15,9 +15,9 @@
 <meta property="og:site_name" content="welcome gjq-666">
 <meta property="og:description" content="Apache Kafka一、概述Apache Kafka是一个分布式的流数据平台，代表三层含义：  Publish&#x2F;Subscribe: 消息队列系统 MQ（Message Queue） Process: 流数据的实时处理（Stream Process） Store: 流数据会以一种安全、容错冗余存储机制存放到分布式集群中  架构 应用场景 构建实时的流数据管道，在系统和应用之间进行可靠的流数据传">
 <meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/1570779395086.png">
-<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/log_anatomy.png">
-<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/log_consumer-1570781067075.png">
-<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1570787863465.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/log_anatomy.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/log_consumer-1570781067075.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/1570787863465.png">
 <meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1570852913358.png">
 <meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571036808522.png">
 <meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/20190830063445252.gif">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-session-windows-01-1571297997083.png">
 <meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-session-windows-02-1571297997111.png">
 <meta property="article:published_time" content="2020-02-26T06:28:42.000Z">
-<meta property="article:modified_time" content="2020-02-26T08:16:31.212Z">
+<meta property="article:modified_time" content="2020-02-26T09:00:01.772Z">
 <meta property="article:author" content="骚白">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/1570779395086.png">
@@ -237,11 +237,11 @@
 <p>Each partition is an ordered, immutable sequence of records that is continually appended to—a structured commit log</p>
 <p>Kafka的每一个分区（Partition），都是一个有序、不可变的持续追加的记录序列，Kafka会以一种结构化的提交日志保存分区中的数据。</p>
 </blockquote>
-<p><img src="/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/log_anatomy.png" alt></p>
+<p><img src="/2020/02/26/Kafka-md/log_anatomy.png" alt="log_anatomy"></p>
 <blockquote>
 <p>注意：在分区中写入数据时，会在队列的末尾进行追加，每一个消费者都维护的有一个自己的消费位置（offset）</p>
 </blockquote>
-<p><img src="/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/log_consumer-1570781067075.png" alt="img"></p>
+<p><img src="/2020/02/26/Kafka-md/log_consumer-1570781067075.png" alt="img"></p>
 <h2 id="二、环境搭建"><a href="#二、环境搭建" class="headerlink" title="二、环境搭建"></a>二、环境搭建</h2><blockquote>
 <p>完全分布式的Kafka集群</p>
 </blockquote>
@@ -294,7 +294,7 @@
 <li><p>描述Topic</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@HadoopNode02 kafka_2.11-2.2.0]# bin/kafka-topics.sh --bootstrap-server HadoopNode01:9092,HadoopNode02:9092,HadoopNode03:9092  --describe --topic t1</span><br><span class="line">Topic:t1        PartitionCount:3        ReplicationFactor:3     Configs:segment.bytes=1073741824</span><br><span class="line">        Topic: t1       Partition: 0    Leader: 0       Replicas: 0,2,1 Isr: 0,2,1</span><br><span class="line">        Topic: t1       Partition: 1    Leader: 2       Replicas: 2,1,0 Isr: 2,1,0</span><br><span class="line">        Topic: t1       Partition: 2    Leader: 1       Replicas: 1,0,2 Isr: 1,0,2</span><br><span class="line">        </span><br><span class="line"><span class="meta">#</span><span class="bash"> 测试：<span class="built_in">kill</span>掉Node03上的kafka服务实例  也就是broker【2】</span></span><br><span class="line">[root@HadoopNode02 kafka_2.11-2.2.0]# bin/kafka-topics.sh --bootstrap-server HadoopNode01:9092,HadoopNode02:9092,HadoopNode03:9092  --describe --topic t1</span><br><span class="line">Topic:t1        PartitionCount:3        ReplicationFactor:3     Configs:segment.bytes=1073741824</span><br><span class="line">        Topic: t1       Partition: 0    Leader: 0       Replicas: 0,2,1 Isr: 0,1</span><br><span class="line">        Topic: t1       Partition: 1    Leader: 1       Replicas: 2,1,0 Isr: 1,0</span><br><span class="line">        Topic: t1       Partition: 2    Leader: 1       Replicas: 1,0,2 Isr: 1,0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 测试：恢复运行Node03上的Kafka服务实例Broker[2]，第三列信息不改变的原因：（分区的Leader都存在，不会触发ZK的故障转移），第五列信息不变</span></span><br><span class="line">[root@HadoopNode02 kafka_2.11-2.2.0]# bin/kafka-topics.sh --bootstrap-server HadoopNode01:9092,HadoopNode02:9092,HadoopNode03:9092  --describe --topic t1</span><br><span class="line">Topic:t1        PartitionCount:3        ReplicationFactor:3     Configs:segment.bytes=1073741824</span><br><span class="line">        Topic: t1       Partition: 0    Leader: 0       Replicas: 0,2,1 Isr: 0,1,2</span><br><span class="line">        Topic: t1       Partition: 1    Leader: 1       Replicas: 2,1,0 Isr: 1,0,2</span><br><span class="line">        Topic: t1       Partition: 2    Leader: 1       Replicas: 1,0,2 Isr: 1,0,2</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1570787863465.png" alt="1570787863465"></p>
+<p><img src="/2020/02/26/Kafka-md/1570787863465.png" alt="1570787863465"></p>
 </li>
 </ul>
 <ul>
