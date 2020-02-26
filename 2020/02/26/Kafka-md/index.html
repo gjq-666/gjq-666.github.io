@@ -5,43 +5,43 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://gjq.com">
+  <link rel="dns-prefetch" href="https://gjq-666.github.io">
   <title>Kafka.md | welcome gjq-666</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Apache Kafka一、概述Apache Kafka是一个分布式的流数据平台，代表三层含义：  Publish&#x2F;Subscribe: 消息队列系统 MQ（Message Queue） Process: 流数据的实时处理（Stream Process） Store: 流数据会以一种安全、容错冗余存储机制存放到分布式集群中  架构 应用场景 构建实时的流数据管道，在系统和应用之间进行可靠的流数据传">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kafka.md">
-<meta property="og:url" content="http://gjq.com/2020/02/26/Kafka-md/index.html">
+<meta property="og:url" content="https://gjq-666.github.io/2020/02/26/Kafka-md/index.html">
 <meta property="og:site_name" content="welcome gjq-666">
 <meta property="og:description" content="Apache Kafka一、概述Apache Kafka是一个分布式的流数据平台，代表三层含义：  Publish&#x2F;Subscribe: 消息队列系统 MQ（Message Queue） Process: 流数据的实时处理（Stream Process） Store: 流数据会以一种安全、容错冗余存储机制存放到分布式集群中  架构 应用场景 构建实时的流数据管道，在系统和应用之间进行可靠的流数据传">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/1570779395086.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/log_anatomy.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/log_consumer-1570781067075.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1570787863465.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1570852913358.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571036808522.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/20190830063445252.gif">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/aHR0cHM6Ly9hc2sucWNsb3VkaW1nLmNvbS9odHRwLXNhdmUvZGV2ZWxvcGVyLW5ld3MvdjZiZjhxZ3B3dC5qcGVn.jpg">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/20190830064713109.gif">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/aHR0cHM6Ly9hc2sucWNsb3VkaW1nLmNvbS9odHRwLXNhdmUvZGV2ZWxvcGVyLW5ld3MvcWg4dGZlYjlwNC5qcGVn.jpg">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122121002.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122141260.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122150248.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571130666409.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823012822162-142241598.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571211039841.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-stateful_operations.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-time-windows-tumbling-1571297999267.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823013225516-1830552448-1571297996894.gif">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-time-windows-hopping-1571297998866.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823013127357-1860834711-1571297996613.gif">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-session-windows-01-1571297997083.png">
-<meta property="og:image" content="http://gjq.com/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-session-windows-02-1571297997111.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/1570779395086.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/log_anatomy.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/log_consumer-1570781067075.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1570787863465.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1570852913358.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571036808522.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/20190830063445252.gif">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/aHR0cHM6Ly9hc2sucWNsb3VkaW1nLmNvbS9odHRwLXNhdmUvZGV2ZWxvcGVyLW5ld3MvdjZiZjhxZ3B3dC5qcGVn.jpg">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/20190830064713109.gif">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/aHR0cHM6Ly9hc2sucWNsb3VkaW1nLmNvbS9odHRwLXNhdmUvZGV2ZWxvcGVyLW5ld3MvcWg4dGZlYjlwNC5qcGVn.jpg">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122121002.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122141260.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122150248.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571130666409.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823012822162-142241598.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571211039841.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-stateful_operations.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-time-windows-tumbling-1571297999267.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823013225516-1830552448-1571297996894.gif">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-time-windows-hopping-1571297998866.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823013127357-1860834711-1571297996613.gif">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-session-windows-01-1571297997083.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-session-windows-02-1571297997111.png">
 <meta property="article:published_time" content="2020-02-26T06:28:42.000Z">
 <meta property="article:modified_time" content="2020-02-26T08:16:31.212Z">
 <meta property="article:author" content="骚白">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://gjq.com/2020/02/26/Kafka-md/1570779395086.png">
+<meta name="twitter:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/1570779395086.png">
   
     <link rel="alternative" href="/atom.xml" title="welcome gjq-666" type="application/atom+xml">
   
@@ -865,7 +865,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://gjq.com/2020/02/26/Kafka-md/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://gjq-666.github.io/2020/02/26/Kafka-md/" alt="微信分享二维码">
     </div>
 </div>
 
