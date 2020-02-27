@@ -14,12 +14,12 @@
 <meta property="og:url" content="https://gjq-666.github.io/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="welcome gjq-666">
 <meta property="og:description" content="postgreSQL学习笔记版本从6.0开始支持SQL解释器安装一路下一步。 1.创建数据库​    &#x2F;&#x2F;命令行操作​    createdb database_name;​    CREATE DATABASE database_name; 12psql -l     &#x2F;&#x2F;展示所有数据库psql database_name   &#x2F;&#x2F;进入数据库 2.删除数据库​    dropdb databas">
-<meta property="og:image" content="c:%5CUsers%5CAdministrator%5CDesktop%5Cwork%5Cpg.jpg">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/C:%5CUsers%5CAdministrator%5CDesktop%5Cwork%5Cpg.jpg">
 <meta property="article:published_time" content="2020-02-22T11:23:59.431Z">
 <meta property="article:modified_time" content="2020-02-21T08:48:11.044Z">
 <meta property="article:author" content="骚白">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:%5CUsers%5CAdministrator%5CDesktop%5Cwork%5Cpg.jpg">
+<meta name="twitter:image" content="https://gjq-666.github.io/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/C:%5CUsers%5CAdministrator%5CDesktop%5Cwork%5Cpg.jpg">
   
     <link rel="alternative" href="/atom.xml" title="welcome gjq-666" type="application/atom+xml">
   
@@ -96,6 +96,8 @@
 		        
 					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
+					<a class="qq" target="_blank" href="/1290315551" title="qq"><i class="icon-qq"></i></a>
+		        
 			</div>
 		</nav>
 	</header>		
@@ -142,6 +144,8 @@
 						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
 						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="qq" target="_blank" href="/1290315551" title="qq"><i class="icon-qq"></i></a>
 			        
 				</div>
 			</nav>
@@ -206,7 +210,7 @@
 
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> public.students</span><br><span class="line">(</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">integer</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="keyword">name</span> <span class="built_in">character</span>(<span class="number">128</span>),</span><br><span class="line">  subjects <span class="built_in">character</span>(<span class="number">1</span>),</span><br><span class="line">  <span class="keyword">CONSTRAINT</span> student2_pkey PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">WITH</span> (</span><br><span class="line">  OIDS=<span class="literal">FALSE</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> public.students</span><br><span class="line">  OWNER <span class="keyword">TO</span> postgres;</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="keyword">ON</span> <span class="keyword">TABLE</span> public.students</span><br><span class="line">  <span class="keyword">IS</span> <span class="string">'这是一个学生信息表'</span>;</span><br></pre></td></tr></table></figure>
 <p>案例表：</p>
-<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5Cwork%5Cpg.jpg" alt="pg"></p>
+<p><img src="/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/C:%5CUsers%5CAdministrator%5CDesktop%5Cwork%5Cpg.jpg" alt="pg"></p>
 <h3 id="4-删除表"><a href="#4-删除表" class="headerlink" title="4.删除表"></a>4.删除表</h3><p>​    DROP TABLE students;</p>
 <h3 id="5-数据类型"><a href="#5-数据类型" class="headerlink" title="5.数据类型"></a>5.数据类型</h3><p>​    数值型：<br>​     <code>integer</code> <code>real</code> <code>serial</code>(序列型，一般用于自增字段)<br>​    文字型：<br>​      <code>char</code>  <code>varchar</code>  <code>text</code><br>​    布尔型：<br>​      <code>boolean</code><br>​    日期型：<br>​      <code>date</code> <code>time</code> <code>timestamp</code><br>​    特色类型：<br>​      <code>Array</code>   <code>inet</code>(网口类型)  <code>JSON</code>  <code>XML</code></p>
 <h3 id="6-添加表约束"><a href="#6-添加表约束" class="headerlink" title="6.添加表约束"></a>6.添加表约束</h3><p>  <code>unique</code>:所在数据中值必须唯一<br>  <code>check</code>：字段设置条件，可以指定函数check(length(content) &gt; 3)必须超过3个字符<br> <code>default</code>：字段默认值</p>
