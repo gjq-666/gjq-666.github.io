@@ -1,101 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-Hans">
 <head>
-  <meta charset="utf-8" />
-    
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>
-    Kafka.md |  welcome gjq-666
-  </title>
-  <meta name="generator" content="hexo-theme-yilia-plus">
-  
-  <link rel="shortcut icon" href="/favicon.ico" />
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-  
-<script src="/js/pace.min.js"></script>
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gjq-666.github.io","root":"/","scheme":"Muse","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Apache Kafka一、概述Apache Kafka是一个分布式的流数据平台，代表三层含义：  Publish&#x2F;Subscribe: 消息队列系统 MQ（Message Queue） Process: 流数据的实时处理（Stream Process） Store: 流数据会以一种安全、容错冗余存储机制存放到分布式集群中  架构 应用场景 构建实时的流数据管道，在系统和应用之间进行可靠的流数据传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka.md">
+<meta property="og:url" content="https://gjq-666.github.io/2020/02/26/Kafka-md/index.html">
+<meta property="og:site_name" content="welcome gjq-666">
+<meta property="og:description" content="Apache Kafka一、概述Apache Kafka是一个分布式的流数据平台，代表三层含义：  Publish&#x2F;Subscribe: 消息队列系统 MQ（Message Queue） Process: 流数据的实时处理（Stream Process） Store: 流数据会以一种安全、容错冗余存储机制存放到分布式集群中  架构 应用场景 构建实时的流数据管道，在系统和应用之间进行可靠的流数据传">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/1570779395086.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/log_anatomy.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/log_consumer-1570781067075.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/1570787863465.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1570852913358.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571036808522.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/20190830063445252.gif">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/aHR0cHM6Ly9hc2sucWNsb3VkaW1nLmNvbS9odHRwLXNhdmUvZGV2ZWxvcGVyLW5ld3MvdjZiZjhxZ3B3dC5qcGVn.jpg">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/20190830064713109.gif">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/aHR0cHM6Ly9hc2sucWNsb3VkaW1nLmNvbS9odHRwLXNhdmUvZGV2ZWxvcGVyLW5ld3MvcWg4dGZlYjlwNC5qcGVn.jpg">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122121002.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122141260.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571122150248.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571130666409.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823012822162-142241598.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/1571211039841.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-stateful_operations.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-time-windows-tumbling-1571297999267.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823013225516-1830552448-1571297996894.gif">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-time-windows-hopping-1571297998866.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/963903-20180823013127357-1860834711-1571297996613.gif">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-session-windows-01-1571297997083.png">
+<meta property="og:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E7%AC%94%E8%AE%B0/Day14-kafka%E8%B5%84%E6%96%99/assets/streams-session-windows-02-1571297997111.png">
+<meta property="article:published_time" content="2020-02-26T06:28:42.000Z">
+<meta property="article:modified_time" content="2020-02-26T09:00:01.772Z">
+<meta property="article:author" content="骚白">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gjq-666.github.io/2020/02/26/Kafka-md/1570779395086.png">
+
+<link rel="canonical" href="https://gjq-666.github.io/2020/02/26/Kafka-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Kafka.md | welcome gjq-666</title>
   
 
-  
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
-</html>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body>
-  <div id="app">
-    <main class="content">
-      <section class="outer">
-  <article id="post-Kafka-md" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Kafka.md
-</h1>
-  
+  <div class="site-meta">
 
-    </header>
-    
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">welcome gjq-666</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
 
-    
-    <div class="article-meta">
-      <a href="/2020/02/26/Kafka-md/" class="article-date">
-  <time datetime="2020-02-26T06:28:42.000Z" itemprop="datePublished">2020-02-26</time>
-</a>
-      
-      
-      
-<div class="word_count">
-    <span class="post-time">
-        <span class="post-meta-item-icon">
-            <i class="ri-quill-pen-line"></i>
-            <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">11.9k字</span>
-        </span>
-    </span>
-
-    <span class="post-time">
-        &nbsp; | &nbsp;
-        <span class="post-meta-item-icon">
-            <i class="ri-book-open-line"></i>
-            <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">54分钟</span>
-        </span>
-    </span>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
       
-    </div>
-    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://gjq-666.github.io/2020/02/26/Kafka-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="骚白">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="welcome gjq-666">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kafka.md
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-02-26 14:28:42 / Modified: 17:00:01" itemprop="dateCreated datePublished" datetime="2020-02-26T14:28:42+08:00">2020-02-26</time>
+            </span>
+
+          
+
+        </div>
+      </header>
 
     
     
-    <div class="tocbot"></div>
-
-
-
-
-
     
+    <div class="post-body" itemprop="articleBody">
 
-    
-    <div class="article-entry" itemprop="articleBody">
       
-
-
-      
-
-      
-      <h1 id="Apache-Kafka"><a href="#Apache-Kafka" class="headerlink" title="Apache Kafka"></a>Apache Kafka</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>Apache Kafka是一个分布式的流数据平台，代表三层含义：</p>
+        <h1 id="Apache-Kafka"><a href="#Apache-Kafka" class="headerlink" title="Apache Kafka"></a>Apache Kafka</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>Apache Kafka是一个分布式的流数据平台，代表三层含义：</p>
 <ul>
 <li><strong>Publish/Subscribe</strong>: 消息队列系统 MQ（Message Queue）</li>
 <li><strong>Process</strong>: 流数据的实时处理（Stream Process）</li>
@@ -667,480 +781,185 @@
 </li>
 </ul>
 
-      
-      <!-- reward -->
-      
-      <div id="reward-btn">
-        打赏
-      </div>
-      
     </div>
+
     
     
-      <!-- copyright -->
-      
-        <div class="declare">
-          <ul class="post-copyright">
-            <li>
-              <i class="ri-copyright-line"></i>
-              <strong>版权声明： </strong s>
-              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
-                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
-            </li>
-          </ul>
-        </div>
+    
+
+      <footer class="post-footer">
+
         
-    <footer class="article-footer">
-      
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="postgreSQL学习笔记">
+      <i class="fa fa-chevron-left"></i> postgreSQL学习笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
           
-<div class="share-btn">
-      <span class="share-sns share-outer">
-        <i class="ri-share-forward-line"></i>
-        分享
-      </span>
-      <div class="share-wrap">
-        <i class="arrow"></i>
-        <div class="share-icons">
-          
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="ri-weibo-fill"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="ri-wechat-fill"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="ri-qq-fill"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="ri-douban-line"></i>
-          </a>
-          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a> -->
-          
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="ri-facebook-circle-fill"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="ri-twitter-fill"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="ri-google-fill"></i>
-          </a>
-        </div>
-      </div>
-</div>
-
-<div class="wx-share-modal">
-    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://gjq-666.github.io/2020/02/26/Kafka-md/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div id="share-mask"></div>
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-  
-  <nav class="article-nav">
-    
-    
-      <a href="/2020/02/22/postgreSQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">postgreSQL学习笔记</div>
-      </a>
-    
-  </nav>
-
-
-  
-
-  
-  
-<!-- valine评论 -->
-<div id="vcomments-box">
-    <div id="vcomments">
-    </div>
-</div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
-<script>
-    new Valine({
-        el: '#vcomments',
-        app_id: '',
-        app_key: '',
-        path: window.location.pathname,
-        notify: 'false',
-        verify: 'false',
-        avatar: 'mp',
-        placeholder: '给我的文章加点评论吧~',
-        recordIP: true
-    });
-    const infoEle = document.querySelector('#vcomments .info');
-    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
-        infoEle.childNodes.forEach(function (item) {
-            item.parentNode.removeChild(item);
-        });
-    }
-</script>
-<style>
-    #vcomments-box {
-        padding: 5px 30px;
-    }
-
-    @media screen and (max-width: 800px) {
-        #vcomments-box {
-            padding: 5px 0px;
-        }
-    }
-
-    #vcomments-box #vcomments {
-        background-color: #fff;
-    }
-
-    .v .vlist .vcard .vh {
-        padding-right: 20px;
-    }
-
-    .v .vlist .vcard {
-        padding-left: 10px;
-    }
-</style>
-
-  
-
-  
-  
-  
-
-</article>
-</section>
-      <footer class="footer">
-  <div class="outer">
-    <ul class="list-inline">
-      <li>
-        &copy;
-        2015-2020
-        骚白
-      </li>
-      <li>
-        
-        Powered by
-        
-        
-        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
-        
-      </li>
-    </ul>
-    <ul class="list-inline">
-      <li>
-        
-        
-        <span>
-  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
-  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
-</span>
-        
-      </li>
-      
-      <li>
-        <!-- cnzz统计 -->
-        
-        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
-        
-      </li>
-    </ul>
-  </div>
-</footer>
-      <div class="to_top">
-        <div class="totop" id="totop">
-  <i class="ri-arrow-up-line"></i>
-</div>
-      </div>
-    </main>
-    <aside class="sidebar">
-      <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/ayer-side.svg" alt="welcome gjq-666"></a>
-  </div>
-  
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags">标签</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags/%E6%97%85%E8%A1%8C/">旅行</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="http://shenyu-vip.lofter.com" target="_blank" rel="noopener">摄影</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/2019/about">关于我</a>
-    </li>
-    
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      
-      <a class="nav-item-link nav-item-search"  title="Search">
-        <i class="ri-search-line"></i>
-      </a>
-      
-      
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="ri-rss-line"></i>
-      </a>
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-    </aside>
-    <div id="mask"></div>
-
-<!-- #reward -->
-<div id="reward">
-  <span class="close"><i class="ri-close-line"></i></span>
-  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
-  <div class="reward-box">
-    
-    <div class="reward-item">
-      <img class="reward-img" src="/images/alipay.jpg">
-      <span class="reward-type">支付宝</span>
-    </div>
-    
-    
-    <div class="reward-item">
-      <img class="reward-img" src="/images/wechat.jpg">
-      <span class="reward-type">微信</span>
-    </div>
-    
-  </div>
-</div>
-    
-<script src="/js/jquery-2.0.3.min.js"></script>
-
-
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-<script src="/js/share.js"></script>
-
-
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
 
 <script>
-  try {
-    var typed = new Typed("#subtitle", {
-    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
-    startDelay: 0,
-    typeSpeed: 200,
-    loop: true,
-    backSpeed: 100,
-    showCursor: true
-    });
-  } catch (err) {
-  }
-  
-</script>
-
-
-
-
-<script src="/js/tocbot.min.js"></script>
-
-<script>
-  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-  tocbot.init({
-    tocSelector: '.tocbot',
-    contentSelector: '.article-entry',
-    headingSelector: 'h1, h2, h3, h4, h5, h6',
-    hasInnerContainers: true,
-    scrollSmooth: true,
-    scrollContainer:'main',
-    positionFixedSelector: '.tocbot',
-    positionFixedClass: 'is-position-fixed',
-    fixedSidebarOffset: 'auto',
-    onClick: (e) => {
-      $('.toc-link').removeClass('is-active-link');
-      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
-      $(e.target.hash).scrollIntoView();
-      return false;
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
     }
   });
-</script>
-
-
-<script>
-  var ayerConfig = {
-    mathjax: false
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
   }
 </script>
 
-
-<script src="/js/ayer.js"></script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
         </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-            <div class="pswp__top-bar">
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache-Kafka"><span class="nav-number">1.</span> <span class="nav-text">Apache Kafka</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、概述"><span class="nav-number">1.1.</span> <span class="nav-text">一、概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#架构"><span class="nav-number">1.1.1.</span> <span class="nav-text">架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">1.1.2.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核心概念"><span class="nav-number">1.1.3.</span> <span class="nav-text">核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Topic和Log"><span class="nav-number">1.1.4.</span> <span class="nav-text">Topic和Log</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、环境搭建"><span class="nav-number">1.2.</span> <span class="nav-text">二、环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.2.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">安装配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境配置"><span class="nav-number">1.2.3.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动服务"><span class="nav-number">1.2.4.</span> <span class="nav-text">启动服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、基础使用"><span class="nav-number">1.3.</span> <span class="nav-text">三、基础使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令行操作"><span class="nav-number">1.3.1.</span> <span class="nav-text">命令行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Topic使用"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Topic使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发布和订阅"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">发布和订阅</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA-Driver"><span class="nav-number">1.3.2.</span> <span class="nav-text">JAVA Driver</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Maven依赖"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">Maven依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备工作-1"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">生产者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消费者"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">消费者</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、高级部分"><span class="nav-number">1.4.</span> <span class="nav-text">四、高级部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#偏移量控制"><span class="nav-number">1.4.1.</span> <span class="nav-text">偏移量控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消费方式"><span class="nav-number">1.4.2.</span> <span class="nav-text">消费方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#订阅（Subscribe）"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">订阅（Subscribe）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指定消费分区"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">指定消费分区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重置消费位置"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">重置消费位置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消费组"><span class="nav-number">1.4.3.</span> <span class="nav-text">消费组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义对象类型的传输"><span class="nav-number">1.4.4.</span> <span class="nav-text">自定义对象类型的传输</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#序列化接口"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">序列化接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义对象"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">自定义对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入工具包的依赖jar包"><span class="nav-number">1.4.4.3.</span> <span class="nav-text">导入工具包的依赖jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义编解码器类"><span class="nav-number">1.4.4.4.</span> <span class="nav-text">自定义编解码器类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">1.4.4.5.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#生产者API"><span class="nav-number">1.4.4.5.1.</span> <span class="nav-text">生产者API</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#消费者API"><span class="nav-number">1.4.4.5.2.</span> <span class="nav-text">消费者API</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生产者的批量发送"><span class="nav-number">1.4.5.</span> <span class="nav-text">生产者的批量发送</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用方法"><span class="nav-number">1.4.5.1.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#具体使用方法"><span class="nav-number">1.4.5.2.</span> <span class="nav-text">具体使用方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka和Spring-Boot整合"><span class="nav-number">1.4.6.</span> <span class="nav-text">Kafka和Spring Boot整合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Spring-Boot工程并选择Kakfa和SpirngBoot的整合依赖"><span class="nav-number">1.4.6.1.</span> <span class="nav-text">创建Spring Boot工程并选择Kakfa和SpirngBoot的整合依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改配置文件"><span class="nav-number">1.4.6.2.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者API-1"><span class="nav-number">1.4.6.3.</span> <span class="nav-text">生产者API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消费者API-1"><span class="nav-number">1.4.6.4.</span> <span class="nav-text">消费者API</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生产者幂等操作"><span class="nav-number">1.4.7.</span> <span class="nav-text">生产者幂等操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用方法-1"><span class="nav-number">1.4.7.1.</span> <span class="nav-text">使用方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka事务"><span class="nav-number">1.4.8.</span> <span class="nav-text">Kafka事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者事务"><span class="nav-number">1.4.8.1.</span> <span class="nav-text">生产者事务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#要求"><span class="nav-number">1.4.8.1.1.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#事务操作"><span class="nav-number">1.4.8.1.2.</span> <span class="nav-text">事务操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实战"><span class="nav-number">1.4.8.1.3.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#生产者API-2"><span class="nav-number">1.4.8.1.3.1.</span> <span class="nav-text">生产者API</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#消费者API-2"><span class="nav-number">1.4.8.1.3.2.</span> <span class="nav-text">消费者API</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消费生产并存事务（consume-transform-produce）"><span class="nav-number">1.4.8.2.</span> <span class="nav-text">消费生产并存事务（consume-transform-produce）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#要求-1"><span class="nav-number">1.4.8.2.1.</span> <span class="nav-text">要求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实战-1"><span class="nav-number">1.4.8.2.2.</span> <span class="nav-text">实战</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kafka-Streaming"><span class="nav-number">2.</span> <span class="nav-text">Kafka Streaming</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是批处理和流处理？"><span class="nav-number">2.1.</span> <span class="nav-text">一、什么是批处理和流处理？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#批处理-Batch-Processing"><span class="nav-number">2.1.1.</span> <span class="nav-text">批处理 Batch Processing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流处理-Stream-Processing"><span class="nav-number">2.1.2.</span> <span class="nav-text">流处理 Stream Processing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Kafka-Straming概述"><span class="nav-number">2.2.</span> <span class="nav-text">二、Kafka Straming概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">2.2.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核心概念-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#架构篇"><span class="nav-number">2.2.3.</span> <span class="nav-text">架构篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#架构-1"><span class="nav-number">2.2.4.</span> <span class="nav-text">架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#任务的并行度"><span class="nav-number">2.2.4.1.</span> <span class="nav-text">任务的并行度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#容错"><span class="nav-number">2.2.4.2.</span> <span class="nav-text">容错</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、实战操作"><span class="nav-number">2.3.</span> <span class="nav-text">三、实战操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#low-level"><span class="nav-number">2.3.1.</span> <span class="nav-text">low-level</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#maven依赖"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">maven依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建输入和输出Topic"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">创建输入和输出Topic</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者-1"><span class="nav-number">2.3.1.4.</span> <span class="nav-text">生产者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消费者-1"><span class="nav-number">2.3.1.5.</span> <span class="nav-text">消费者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析原因"><span class="nav-number">2.3.1.6.</span> <span class="nav-text">分析原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#状态管理"><span class="nav-number">2.3.1.7.</span> <span class="nav-text">状态管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#流处理应用的代码（local-state-store）"><span class="nav-number">2.3.1.7.1.</span> <span class="nav-text">流处理应用的代码（local state store）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自定义处理器代码"><span class="nav-number">2.3.1.7.2.</span> <span class="nav-text">自定义处理器代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Remote-State-Store"><span class="nav-number">2.3.1.7.3.</span> <span class="nav-text">Remote State Store</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#high-level"><span class="nav-number">2.3.2.</span> <span class="nav-text">high-level</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Maven依赖-1"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">Maven依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用-1"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析拓扑运行过程"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">分析拓扑运行过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作算子"><span class="nav-number">2.3.2.4.</span> <span class="nav-text">操作算子</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#无状态的操作算子-stateless"><span class="nav-number">2.3.2.4.1.</span> <span class="nav-text">无状态的操作算子(stateless)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#有状态的操作算子-stateful"><span class="nav-number">2.3.2.4.2.</span> <span class="nav-text">有状态的操作算子(stateful)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Window"><span class="nav-number">2.3.2.5.</span> <span class="nav-text">Window</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">骚白</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
 </div>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
-<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
-
-<script>
-    function viewer_init() {
-        let pswpElement = document.querySelectorAll('.pswp')[0];
-        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
-
-        $imgArr.forEach(($em, i) => {
-            $em.onclick = () => {
-                // slider展开状态
-                // todo: 这样不好，后面改成状态
-                if (document.querySelector('.left-col.show')) return
-                let items = []
-                $imgArr.forEach(($em2, i2) => {
-                    let img = $em2.getAttribute('data-idx', i2)
-                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
-                    let title = $em2.getAttribute('alt')
-                    // 获得原图尺寸
-                    const image = new Image()
-                    image.src = src
-                    items.push({
-                        src: src,
-                        w: image.width || $em2.width,
-                        h: image.height || $em2.height,
-                        title: title
-                    })
-                })
-                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
-                    index: parseInt(i)
-                });
-                gallery.init()
-            }
-        })
-    }
-    viewer_init()
-</script>
 
 
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
 
-<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+      </div>
+    </main>
 
-    
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">骚白</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
   </div>
-</body>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.1
+  </div>
 
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
 </html>
